@@ -1,0 +1,36 @@
+class Solution {
+public:
+    TreeNode* buildTree_helper(vector<int>& preorder,vector<int>& inorder,int preorderStart,int preorderEnd, int inorderStart,int inorderEnd){
+        if(inorderStart>inorderEnd || preorderStart>preorderEnd){
+            return NULL;
+        }
+        int rootData=preorder[preorderStart];
+        int rootIndex=-1;
+        for(int i=inorderStart;i<=inorderEnd;i++){
+          if (rootData==inorder[i]){
+              rootIndex=i;
+              break;
+          } 
+        }
+        TreeNode* root= new TreeNode(rootData);
+        int linS=inorderStart;
+        int linE=rootIndex-1;
+        int lpreS=preorderStart+1;
+        int lpreE=linE-linS+lpreS;
+        int rinS=rootIndex+1;
+        int rinE=inorderEnd;
+        int rpreS=lpreE+1;
+        int rpreE=preorderEnd;
+        
+        root->left=buildTree_helper(preorder,inorder,lpreS,lpreE,linS,linE);
+        root->right=buildTree_helper(preorder,inorder,rpreS,rpreE,rinS,rinE);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int preorderStart=0;
+        int preorderEnd=preorder.size()-1;
+        int inorderStart=0;
+        int inorderEnd=inorder.size()-1;
+        return buildTree_helper(preorder,inorder,preorderStart,preorderEnd,inorderStart,inorderEnd);
+    }
+};
