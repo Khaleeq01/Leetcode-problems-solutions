@@ -1,0 +1,35 @@
+class Solution {
+public:
+    TreeNode* buildTree_helper(vector<int>& inorder, vector<int>& postorder,int inorderStart,int inorderEnd,int postorderStart,int postorderEnd ){
+        if(inorderStart>inorderEnd || postorderStart>postorderEnd){
+            return NULL;
+        }
+        int rootData=postorder[postorderEnd];
+        int rootIndex=-1;
+        for(int i=inorderStart;i<=inorderEnd;i++){
+            if(rootData==inorder[i]){
+                rootIndex=i;
+                break;
+            }
+        }
+        TreeNode* root= new TreeNode(rootData);
+            int linS=inorderStart;
+            int linE=rootIndex-1;
+            int lpostS=postorderStart;
+            int lpostE=linE-linS+lpostS;
+            int rinS=rootIndex+1;
+            int rinE=inorderEnd;
+            int rpostS=lpostE+1;
+            int rpostE=postorderEnd-1;
+        root->left=buildTree_helper(inorder,postorder,linS,linE,lpostS,lpostE);
+        root->right=buildTree_helper(inorder,postorder,rinS,rinE,rpostS,rpostE);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        int inorderStart=0;
+        int inorderEnd=inorder.size()-1;
+        int postorderStart=0;
+        int postorderEnd=postorder.size()-1;
+        return buildTree_helper(inorder,postorder,inorderStart,inorderEnd,postorderStart,postorderEnd);
+    }
+};
