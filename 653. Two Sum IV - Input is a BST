@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool findTarget(TreeNode* root, int k) {
+        vector<int>traversal;
+        inorderTraversal(root,traversal);
+        //create two pointer
+        int i=0;
+        int j=traversal.size()-1;
+        while(i<j){
+            if(traversal[i]+traversal[j]==k)
+                return true;
+            else if(traversal[i]+traversal[j]>k)
+                j--;
+                else
+                    i++;
+        }
+        return false;
+    }
+    void inorderTraversal(TreeNode*root,vector<int>&traversal){
+        if(root==NULL)
+            return;
+        inorderTraversal(root->left,traversal);
+        traversal.push_back(root->val);
+        inorderTraversal(root->right,traversal);
+    }
+};
