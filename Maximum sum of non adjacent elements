@@ -1,0 +1,73 @@
+//Recursion
+#include <bits/stdc++.h> 
+int solve(vector<int> &nums,int n){
+    //base case
+    if(n<0)
+        return 0;
+    if(n==0)
+        return nums[0];
+    int incl=solve(nums,n-2)+nums[n];
+    int excl=solve(nums,n-1)+0;
+    return max(incl,excl);
+}
+int maximumNonAdjacentSum(vector<int> &nums){
+    int n=nums.size();
+    return solve(nums,n-1);
+}
+//Memoization
+#include <bits/stdc++.h> 
+int solve(vector<int> &nums,int n,vector<int> &dp){
+    //base case
+    if(n<0)
+        return 0;
+    if(n==0)
+        return nums[0];
+    if(dp[n]!=-1)
+        return dp[n];
+    
+    int incl=solve(nums,n-2,dp)+nums[n];
+    int excl=solve(nums,n-1,dp)+0;
+    return  dp[n]=max(incl,excl);
+}
+int maximumNonAdjacentSum(vector<int> &nums){
+     int n=nums.size();
+    vector<int>dp(n+1,-1);
+    return solve(nums,n-1,dp);
+}
+//Dynamic programming
+#include <bits/stdc++.h> 
+int solve(vector<int> &nums,int n,vector<int> &dp){
+    //base case
+  dp[0]=nums[0];
+ for(int i=1;i<=n;i++){
+     int incl=dp[i-2]+nums[i];
+    int excl=dp[i-1]+0;
+     dp[i]=max(incl,excl);
+ }
+    return dp[n-1];
+}
+int maximumNonAdjacentSum(vector<int> &nums){
+     int n=nums.size();
+    vector<int>dp(n+1,-1);
+    return solve(nums,n,dp);
+}
+//space optimization
+#include <bits/stdc++.h> 
+int solve(vector<int> &nums,int n,vector<int> &dp){
+    //base case
+    int prev2=0;
+  int prev=nums[0];
+ for(int i=1;i<n;i++){
+     int incl=prev2+nums[i];
+    int excl=prev+0;
+    int cur_i=max(incl,excl);
+     prev2=prev;
+     prev=cur_i;
+ }
+    return prev;
+}
+int maximumNonAdjacentSum(vector<int> &nums){
+     int n=nums.size();
+    vector<int>dp(n+1,-1);
+    return solve(nums,n,dp);
+}
