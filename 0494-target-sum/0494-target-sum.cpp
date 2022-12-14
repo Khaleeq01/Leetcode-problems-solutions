@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int countPartitions(int ind,int target,vector<int>& nums){
+    int countPartitions(int ind,int target,vector<int>& nums,vector<vector<int>>& dp){
         if(ind==0){
             if(target==0 && nums[0]==0)
                 return 2;
@@ -8,11 +8,13 @@ public:
             return 1;
         return 0;
         }
-        int notTaken=countPartitions(ind-1,target,nums);
+        if(dp[ind][target]!=-1)
+            return dp[ind][target];
+        int notTaken=countPartitions(ind-1,target,nums,dp);
         int taken=0;
         if(nums[ind]<=target)
-            taken=countPartitions(ind-1,target-nums[ind],nums);
-        return (notTaken + taken);
+            taken=countPartitions(ind-1,target-nums[ind],nums,dp);
+        return dp[ind][target]=(notTaken + taken);
     }
     int findTargetSumWays(vector<int>& nums, int target) {
         int totalSum=0;
@@ -25,6 +27,7 @@ public:
             return 0;
         if((totalSum-target)%2!=0) return 0;
         int s2=(totalSum-target)/2;
-        return countPartitions(n-1,s2,nums);
+        vector<vector<int>> dp(n,vector<int>(s2+1,-1));
+        return countPartitions(n-1,s2,nums,dp);
     }
 };
