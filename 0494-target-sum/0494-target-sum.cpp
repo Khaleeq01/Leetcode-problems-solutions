@@ -2,21 +2,22 @@ class Solution {
 public:
     int countPartitions(vector<int>& nums,int tar){
         int n=nums.size();
-        vector<vector<int>> dp(n,vector<int>(tar+1,0));
+       vector<int> prev(tar+1,0),cur(tar+1,0);
        if(nums[0]==0)
-           dp[0][0]=2;
-        else dp[0][0]=1;
-            if(nums[0]!=0 && nums[0]<=tar) dp[0][nums[0]] = 1;
+           prev[0]=2;
+        else prev[0]=1;
+            if(nums[0]!=0 && nums[0]<=tar) prev[nums[0]] = 1;
         for(int ind=1;ind<n;ind++){
             for(int target=0;target<=tar;target++){
-                int notTaken=dp[ind-1][target];
+                int notTaken=prev[target];
         int taken=0;
         if(nums[ind]<=target)
-            taken=dp[ind-1][target-nums[ind]];
-        dp[ind][target]=(notTaken + taken);
+            taken=prev[target-nums[ind]];
+        cur[target]=(notTaken + taken);
             }
+            prev=cur;
         }
-      return dp[n-1][tar];
+      return prev[tar];
     }
     int findTargetSumWays(vector<int>& nums, int target) {
         int totalSum=0;
