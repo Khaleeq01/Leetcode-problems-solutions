@@ -1,0 +1,18 @@
+int cutRodUtil(vector<int>& price,int n,int ind,vector<vector<int>> & dp){
+    if(ind==0){
+        return n*price[0];
+    }
+    if(dp[ind][n]!=-1)
+        return dp[ind][n];
+    int notTake=cutRodUtil(price,n,ind-1,dp);
+    int take=INT_MIN;
+    int rodLength=ind+1;
+    if(rodLength<=n)
+        take=price[ind]+cutRodUtil(price,n-rodLength,ind,dp);
+    return dp[ind][n]= max(notTake,take);
+}
+int cutRod(vector<int> &price, int n)
+{
+    vector<vector<int>> dp(n,vector<int>(n+1,-1));
+	return cutRodUtil(price,n,n-1,dp);
+}
