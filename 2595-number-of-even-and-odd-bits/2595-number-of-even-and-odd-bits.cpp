@@ -3,8 +3,8 @@ public:
     vector<int> evenOddBit(int n) {
         int i=0,even=0,odd=0;
         while(n){
-            if(n%2){
-                if(i%2)
+            if(n%2!=0){
+                if(i%2!=0)
                     odd++;
                 else
                     even++;
