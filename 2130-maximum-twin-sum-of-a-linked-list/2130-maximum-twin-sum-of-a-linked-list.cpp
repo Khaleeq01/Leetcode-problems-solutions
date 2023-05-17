@@ -1,16 +1,29 @@
 class Solution {
 public:
+    ListNode* reverseList(ListNode* head){
+        ListNode* prev=NULL,*curr=head,*forward;
+        while(curr!=NULL){
+            forward=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=forward;
+        }
+        return prev;
+    }
     int pairSum(ListNode* head) {
-        vector<int>v;
-        ListNode*temp=head;
-        while(temp!=NULL){
-            v.push_back(temp->val);
-            temp=temp->next;
+      ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast!=NULL && fast->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
         }
-        int sum=0;
-        for(int i=0;i<v.size()/2;i++){
-            sum=max(sum,v[i]+v[v.size()-1-i]);
+        ListNode* rev=reverseList(slow);
+        int maxi=0;
+        while(rev!=NULL){
+            maxi=max(maxi,head->val+rev->val);
+            rev=rev->next;
+            head=head->next;
         }
-        return sum;
+        return maxi;
     }
 };
