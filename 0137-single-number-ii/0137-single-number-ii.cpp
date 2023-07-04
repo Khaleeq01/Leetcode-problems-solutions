@@ -1,16 +1,14 @@
 class Solution {
 public:
+    unordered_map<int,int>m;
     int singleNumber(vector<int>& nums) {
-        int n=nums.size();
-        for(int i=0;i<n;i++){
-             bool found=false;
-            for(int j=0;j<n;j++){
-                if(nums[i]==nums[j] && i!=j){
-                    found=true;
-                }
+        for(auto i:nums){
+            m[i]++;
+        }
+        for(auto it:m){
+            if(it.second==1){
+                return it.first;
             }
-            if(!found)
-                return nums[i];
         }
         return -1;
     }
