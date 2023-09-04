@@ -1,12 +1,15 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        unordered_set<ListNode*>hashtable;
-        while(head!=NULL){
-            if(hashtable.find(head)!=hashtable.end())
+        if(head==NULL)
+            return false;
+        ListNode *slow=head;
+        ListNode *fast=head;
+        while(fast!=NULL && fast->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+            if(slow==fast) 
                 return true;
-            hashtable.insert(head);
-            head=head->next;
         }
         return false;
     }
