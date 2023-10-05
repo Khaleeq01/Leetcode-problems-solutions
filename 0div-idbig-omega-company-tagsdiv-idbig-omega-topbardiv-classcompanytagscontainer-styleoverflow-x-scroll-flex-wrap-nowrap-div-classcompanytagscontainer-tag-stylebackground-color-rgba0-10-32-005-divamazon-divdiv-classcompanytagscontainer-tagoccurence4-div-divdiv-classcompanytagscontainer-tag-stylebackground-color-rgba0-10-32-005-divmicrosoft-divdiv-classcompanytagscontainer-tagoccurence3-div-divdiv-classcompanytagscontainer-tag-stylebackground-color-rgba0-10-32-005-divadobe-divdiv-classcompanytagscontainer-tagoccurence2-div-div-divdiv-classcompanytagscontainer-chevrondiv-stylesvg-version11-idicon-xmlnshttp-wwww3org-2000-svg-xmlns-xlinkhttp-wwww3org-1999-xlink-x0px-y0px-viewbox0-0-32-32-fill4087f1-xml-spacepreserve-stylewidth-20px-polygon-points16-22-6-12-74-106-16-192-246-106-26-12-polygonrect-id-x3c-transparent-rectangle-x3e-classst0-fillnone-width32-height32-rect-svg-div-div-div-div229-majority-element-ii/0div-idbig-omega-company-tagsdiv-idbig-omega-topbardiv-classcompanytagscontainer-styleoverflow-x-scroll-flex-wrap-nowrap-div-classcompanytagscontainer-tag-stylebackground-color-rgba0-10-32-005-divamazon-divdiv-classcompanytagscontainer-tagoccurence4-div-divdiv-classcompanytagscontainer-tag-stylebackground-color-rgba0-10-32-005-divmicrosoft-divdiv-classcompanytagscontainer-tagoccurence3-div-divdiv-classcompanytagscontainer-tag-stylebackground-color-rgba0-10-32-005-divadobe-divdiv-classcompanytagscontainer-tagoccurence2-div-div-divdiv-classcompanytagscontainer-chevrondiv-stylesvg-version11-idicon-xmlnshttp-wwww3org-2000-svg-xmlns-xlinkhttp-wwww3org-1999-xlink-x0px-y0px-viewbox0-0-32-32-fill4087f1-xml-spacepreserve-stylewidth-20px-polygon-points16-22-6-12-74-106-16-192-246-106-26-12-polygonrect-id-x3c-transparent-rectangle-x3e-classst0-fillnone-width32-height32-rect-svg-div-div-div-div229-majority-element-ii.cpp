@@ -1,17 +1,38 @@
 class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {
-        int n=nums.size();
-        vector<int>ls;
-        map<int,int>mpp;
-        int mini=(n/3)+1; //calculating the floor
-        for(int i=0;i<n;i++){
-            mpp[nums[i]]++;
-            if(mpp[nums[i]]==mini){
-                ls.push_back(nums[i]);
+        int sz=nums.size();
+        int num1=-1,num2=-1,count1=0,count2=0,i;
+        for(i=0;i<sz;i++){
+            if(count1==0 && num2!=nums[i]){
+                num1=nums[i];
+                count1=1;
             }
-            if(ls.size()==2) break;
+            else if(count2==0 && num1!=nums[i]){
+                num2=nums[i];
+                count2=1;
+            }
+            else if(nums[i]==num1){
+                count1++;
+            }
+            else if(nums[i]==num2){
+                count2++;
+            }
+            else{
+                count1--;
+                count2--;
+            }
         }
-        return ls;
+        vector<int>ans;
+        count1=count2=0;
+        for(int i=0;i<sz;i++){
+            if(nums[i]==num1)
+                count1++;
+            else if(nums[i]==num2)
+                count2++;
+        }
+        if(count1>sz/3) ans.push_back(num1);
+        if(count2>sz/3) ans.push_back(num2);
+        return ans;
     }
 };
