@@ -1,20 +1,20 @@
 class Solution {
 public:
     vector<int> findDiagonalOrder(vector<vector<int>>& nums) {
+        queue<pair<int,int>>q; // to store r and c
+        q.push({0,0});
         vector<int>ans;
-        int maxSum=0; //to store sum of indices i,j
-        unordered_map<int,vector<int>>sumToElements;// to store cell no and its corresponding MAXSUM of i+j
-        for(int i=nums.size()-1;i>=0;i--){
-            for(int j=0;j<nums[i].size();j++){
-                maxSum=max(maxSum,i+j);
-                sumToElements[i+j].push_back(nums[i][j]);//push back corresponding cellNo into map
+        while(!q.empty()){
+            auto [r,c]=q.front(); //take first element of q
+            q.pop();
+            ans.push_back(nums[r][c]);
+            //first case move c one step downward
+            if(c==0 && r+1<nums.size()){
+                q.push({r+1,c});
             }
-        }
-        //iterate to the maxSum
-        for(int i=0;i<=maxSum;i++){
-            //iterate to map 
-            for(auto el:sumToElements[i]){
-             ans.push_back(el);   
+            //second case move row step forward
+            if(c+1<nums[r].size()){
+                q.push({r,c+1});
             }
         }
         return ans;
