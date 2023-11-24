@@ -1,12 +1,21 @@
 class Solution {
 public:
     bool check(vector<int>& arr){
-        sort(arr.begin(),arr.end());
-        int diff=arr[1]-arr[0];
-        for(int i=2;i<arr.size();i++){
-            if(arr[i]-arr[i-1]!=diff){
-                  return false;
-            }
+       int maxEl=INT_MIN;
+       int minEl=INT_MAX;
+       int n=arr.size();
+        unordered_set<int>s;
+        for(auto el:arr){
+            maxEl=max(maxEl,el);
+            minEl=min(minEl,el);
+            s.insert(el);
+        }
+        if((maxEl-minEl)%(n-1)!=0) return false;
+        int d=(maxEl-minEl)/(n-1);
+        int curr=minEl+d;
+        while(curr<maxEl){
+            if(s.find(curr)==s.end()) return false;
+            curr+=d;
         }
         return true;
     }
