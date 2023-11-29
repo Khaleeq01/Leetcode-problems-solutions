@@ -1,20 +1,24 @@
-// Two pointer approach
 class Solution {
 public:
     string removeDuplicates(string s) {
-        int n=s.size();
-        int i=0,j=i+1;
-        while(i<n-1){
-            if(s[i]==s[j]){
-                s.erase(i,2);
-                i=0;
-                j=i+1;
+        stack<char>st;
+        string ans;
+        for(int i=0;i<s.size();i++){
+            if(st.size()==0){
+                st.push(s[i]);
+            }
+            else if(st.top()==s[i]){
+                st.pop();
             }
             else{
-                i++;
-                j++;
+                st.push(s[i]);
             }
         }
-        return s;
+        while(!st.empty()){
+            ans+=st.top();
+            st.pop();
+        }
+        reverse(ans.begin(),ans.end());
+        return ans;
     }
 };
