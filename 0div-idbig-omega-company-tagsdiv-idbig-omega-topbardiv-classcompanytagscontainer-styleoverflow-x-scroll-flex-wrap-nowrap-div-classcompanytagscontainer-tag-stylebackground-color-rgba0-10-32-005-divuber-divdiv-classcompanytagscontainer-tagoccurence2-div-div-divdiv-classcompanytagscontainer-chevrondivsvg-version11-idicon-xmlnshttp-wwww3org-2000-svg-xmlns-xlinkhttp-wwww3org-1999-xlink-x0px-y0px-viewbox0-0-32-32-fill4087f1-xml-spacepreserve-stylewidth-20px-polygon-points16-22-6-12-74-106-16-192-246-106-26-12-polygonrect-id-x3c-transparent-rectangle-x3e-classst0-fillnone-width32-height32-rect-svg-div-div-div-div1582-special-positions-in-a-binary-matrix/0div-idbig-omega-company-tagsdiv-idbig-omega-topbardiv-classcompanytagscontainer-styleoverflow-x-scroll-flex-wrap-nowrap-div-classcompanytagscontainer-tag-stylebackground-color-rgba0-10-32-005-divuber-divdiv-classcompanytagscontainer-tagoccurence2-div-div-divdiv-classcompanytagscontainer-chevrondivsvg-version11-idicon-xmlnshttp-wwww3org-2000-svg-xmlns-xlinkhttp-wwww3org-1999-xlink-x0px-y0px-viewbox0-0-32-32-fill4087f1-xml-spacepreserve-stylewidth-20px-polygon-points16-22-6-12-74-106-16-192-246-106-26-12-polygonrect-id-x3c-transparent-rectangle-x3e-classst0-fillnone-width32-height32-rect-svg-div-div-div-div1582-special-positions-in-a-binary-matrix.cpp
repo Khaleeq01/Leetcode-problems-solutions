@@ -1,33 +1,20 @@
-//Brute force approach
 class Solution {
 public:
     int numSpecial(vector<vector<int>>& mat) {
-        int count=0,m=mat.size(),n=mat[0].size();
-        //iterate through matrix
-        for(int row=0;row<m;row++){
-            for(int col=0;col<n;col++){
-                if(mat[row][col]==0) continue;
-                bool good=true;
-                //iterate in rows 
-                for(int r=0;r<m;r++){
-                    if(r!=row && mat[r][col]==1){
-                        good=false;
-                        break;
-                    }
-                }
-                //iterate in cols 
-                for(int c=0;c<n;c++){
-                    if(c!=col && mat[row][c]==1){
-                        good=false;
-                        break;
-                    }
-                }
-                if(good) count++;
+        vector<int> rows(mat.size()), cols(mat[0].size());
+        for (int i = 0; i < rows.size(); i++){
+            for (int j = 0; j < cols.size(); j++) {
+                if (mat[i][j]==1)
+                    rows[i]++, cols[j]++;
             }
         }
-        return count;
+
+        int ans = 0;
+        for (int i = 0; i < rows.size(); i++)
+            for (int j = 0; j < cols.size(); j++)
+                if (mat[i][j]==1 && rows[i] == 1 && cols[j] == 1)
+                    ans++;
+        
+        return ans;
     }
 };
-
-//T.C =O(m*n(m+n))
-//S.C= O(1)
