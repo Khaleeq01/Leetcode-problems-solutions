@@ -1,21 +1,20 @@
 class Solution {
 public:
     int mod=1e9+7;
-    int solve(int dice,int faces,int target,vector<vector<int>>& dp){
+    int numRollsToTarget(int n, int k, int t) {
+        vector<vector<int>>dp(n+1,vector<int>(t+1,0));
         //base case
-        if(target<0) return 0;
-        if(dice==0 && target!=0) return 0;
-        if(dice!=0 && target==0) return 0;
-        if(dice==0 && target==0) return 1;
-        if(dp[dice][target]!=-1) return dp[dice][target];
-        long long ans=0;
-        for(int i=1;i<=faces;i++){
-            ans+=solve(dice-1,faces,target-i,dp);
+        dp[0][0]=1;
+        for(int dice=1;dice<=n;dice++){
+            for(int target=1;target<=t;target++){
+                long long ans=0;
+        for(int i=1;i<=k;i++){
+            if(target-i>=0)
+            ans+=dp[dice-1][target-i];
         }
-        return dp[dice][target]=ans%mod;
-    }
-    int numRollsToTarget(int n, int k, int target) {
-        vector<vector<int>>dp(n+1,vector<int>(target+1,-1));
-        return solve(n,k,target,dp);
+         dp[dice][target]=ans%mod;
+            }
+        }
+        return dp[n][t];
     }
 };
