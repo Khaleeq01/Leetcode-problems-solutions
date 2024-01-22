@@ -1,21 +1,19 @@
 class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) {
-        int dup=-1,missing=-1;
-        int n=nums.size();
-        for(int i=1;i<=n;i++){
-            int count=0;
-            for(int j=0;j<n;j++){
-                if(nums[j]==i)
-                    count++;
-            }
-            if(count==2){
-                dup=i;
-            }
-            else if(count==0){
-                missing=i;
-            }
+       long long int n=nums.size();
+        long long int S=(n*(n+1))/2;
+        long long int P=(n*(n+1)*(2*n+1))/6;
+        long long int repeating=0,missing=0;
+        for(int i=0;i<n;i++){
+            S-=(long long int)nums[i];
+            P-=(long long int)nums[i]*(long long int)nums[i];
         }
-        return {dup,missing};
+     missing=(S+P/S)/2;
+        repeating=missing-S;
+        vector<int>ans;
+        ans.push_back(repeating);
+        ans.push_back(missing);
+        return ans;
     }
 };
