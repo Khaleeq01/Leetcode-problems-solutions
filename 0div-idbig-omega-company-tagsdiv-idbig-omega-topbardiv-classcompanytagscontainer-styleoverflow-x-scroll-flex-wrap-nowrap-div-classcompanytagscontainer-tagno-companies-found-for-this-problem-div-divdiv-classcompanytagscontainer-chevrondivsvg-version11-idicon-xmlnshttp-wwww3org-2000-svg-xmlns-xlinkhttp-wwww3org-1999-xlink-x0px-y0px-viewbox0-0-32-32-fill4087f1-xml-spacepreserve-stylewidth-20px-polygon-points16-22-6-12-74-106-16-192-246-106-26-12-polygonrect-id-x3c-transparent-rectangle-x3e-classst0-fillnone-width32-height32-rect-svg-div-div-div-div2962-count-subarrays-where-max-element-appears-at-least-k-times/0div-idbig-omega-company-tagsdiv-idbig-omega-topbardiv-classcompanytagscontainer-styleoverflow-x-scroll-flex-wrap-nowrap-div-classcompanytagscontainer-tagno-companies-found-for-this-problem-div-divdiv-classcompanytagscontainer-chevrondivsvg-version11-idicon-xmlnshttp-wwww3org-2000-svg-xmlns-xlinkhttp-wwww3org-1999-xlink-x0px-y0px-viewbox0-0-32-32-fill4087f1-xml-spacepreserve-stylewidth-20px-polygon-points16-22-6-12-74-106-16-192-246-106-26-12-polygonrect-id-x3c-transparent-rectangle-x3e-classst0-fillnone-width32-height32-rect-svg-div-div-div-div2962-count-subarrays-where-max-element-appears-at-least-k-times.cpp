@@ -1,26 +1,17 @@
 class Solution {
 public:
-    long long countSubarrays(std::vector<int>& nums, int k) {
-        long long n = nums.size(); 
-        long long maxi = *max_element(nums.begin(), nums.end()); // Maximum value in the vector
-        long long i = 0, j = 0, cnt = 0, ans = 0; // Initialize pointers and counters
-
-        for (j = 0; j < n; j++) {
-            if (nums[j] == maxi) {
-                cnt++; // Increment count when the element is equal to the maximum value
+    long long countSubarrays(vector<int>& nums, int k) {
+        long long int max_num=*max_element(nums.begin(),nums.end());
+        long long int left=0,right=0,ans=0,count=0;
+        while(right<nums.size()){
+            if(nums[right]==max_num) count++;
+            while(count>=k){
+                if(nums[left]==max_num) count--;
+                left++;
+                ans+=nums.size()-right;
             }
-            if (cnt >= k) {
-                // Slide the window from the left side and count subarrays containing the maximum element
-                for (; cnt >= k; i++) {
-                    ans += n - j; // Count subarrays where maximum element is from j to n-1
-                    if (nums[i] == maxi) {
-                        cnt--; // Decrease count as the window slides
-                    }
-                }
-            }
+            right++;
         }
-        return ans; // Return the total count of subarrays
+        return ans;
     }
 };
-
-
