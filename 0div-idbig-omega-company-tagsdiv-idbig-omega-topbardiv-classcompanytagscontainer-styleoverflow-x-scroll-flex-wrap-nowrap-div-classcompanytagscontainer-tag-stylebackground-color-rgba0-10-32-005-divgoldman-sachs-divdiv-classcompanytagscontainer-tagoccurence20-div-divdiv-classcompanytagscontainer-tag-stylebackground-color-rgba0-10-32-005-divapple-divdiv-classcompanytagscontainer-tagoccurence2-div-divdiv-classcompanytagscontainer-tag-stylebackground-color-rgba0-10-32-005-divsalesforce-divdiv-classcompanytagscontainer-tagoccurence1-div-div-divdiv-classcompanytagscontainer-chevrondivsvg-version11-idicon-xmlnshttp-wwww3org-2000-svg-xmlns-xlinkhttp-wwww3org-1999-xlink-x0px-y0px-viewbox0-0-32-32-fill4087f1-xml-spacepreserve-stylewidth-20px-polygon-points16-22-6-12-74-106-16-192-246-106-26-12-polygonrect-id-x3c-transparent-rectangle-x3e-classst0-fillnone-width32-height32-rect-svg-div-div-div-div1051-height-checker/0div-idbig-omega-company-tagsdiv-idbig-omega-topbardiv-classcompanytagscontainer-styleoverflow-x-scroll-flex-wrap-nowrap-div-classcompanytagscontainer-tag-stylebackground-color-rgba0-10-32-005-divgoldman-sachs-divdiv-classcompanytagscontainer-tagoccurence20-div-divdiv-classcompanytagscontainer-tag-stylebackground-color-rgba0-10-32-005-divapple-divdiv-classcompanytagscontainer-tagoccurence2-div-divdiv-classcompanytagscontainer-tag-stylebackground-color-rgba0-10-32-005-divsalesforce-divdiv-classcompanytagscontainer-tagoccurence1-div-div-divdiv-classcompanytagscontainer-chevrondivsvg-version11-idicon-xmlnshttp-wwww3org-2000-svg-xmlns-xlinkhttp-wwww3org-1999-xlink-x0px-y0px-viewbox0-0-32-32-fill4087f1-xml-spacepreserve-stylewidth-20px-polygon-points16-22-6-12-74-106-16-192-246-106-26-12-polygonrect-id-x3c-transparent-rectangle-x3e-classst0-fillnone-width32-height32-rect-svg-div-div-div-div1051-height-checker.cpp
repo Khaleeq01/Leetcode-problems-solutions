@@ -1,12 +1,19 @@
+//applying count sort T.C=O(n+(n+k)) S.C=O(k)
 class Solution {
 public:
     int heightChecker(vector<int>& heights) {
-        vector<int>hCopy(heights);
-        int ans=0;
-        sort(hCopy.begin(),hCopy.end());
+        vector<int>count(101,0);
+        for(auto h:heights) count[h]++;
+        int ans=0,id=0;
         for(int i=0;i<heights.size();i++){
-            if(heights[i]!=hCopy[i])
+            while(count[id]==0) id++;
+            if(heights[i]==id){
+                count[id]--;
+            }
+            else{
                 ans++;
+                count[id]--;
+            }
         }
         return ans;
     }
