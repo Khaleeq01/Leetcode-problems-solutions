@@ -1,22 +1,27 @@
 class Solution {
 public:
     vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
-        vector<int>result;
-        for(int i=0;i<arr2.size();i++){
-            for(int j=0;j<arr1.size();j++){
-                if(arr1[j]==arr2[i]){
-                    result.push_back(arr1[j]);
-                    //mark visited elements
-                    arr1[j]=-1;
-                }
+        //make arr of max_element size
+        int maxEl=*max_element(arr1.begin(),arr1.end());
+        vector<int>freq(maxEl+1,0);
+        //iterate on arr1 to store freq of element
+        for(auto el:arr1) freq[el]++;
+        
+        //take ans to store answer
+        vector<int>ans;
+        //iterate on arr2 
+        for(auto el:arr2){
+            while(freq[el]--){
+                ans.push_back(el);
             }
         }
-        //sort the remaining elements in arr1
-        sort(arr1.begin(),arr1.end());
-        for(int i=0;i<arr1.size();i++){
-            if(arr1[i]!=-1)
-                result.push_back(arr1[i]);
+        // iterate on freq arr for remainng elements
+        for(int el=0;el<=maxEl;el++){
+            int f=freq[el];
+            while(f>0 && f--){
+                ans.push_back(el);
+            }
         }
-        return result;
+        return ans;
     }
 };
