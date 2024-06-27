@@ -1,18 +1,9 @@
 class Solution {
 public:
     int findCenter(vector<vector<int>>& edges) {
-        unordered_map<int,int>degree;
-        for(vector<int>edge:edges){
-            degree[edge[0]]++;
-            degree[edge[1]]++;
-        }
-        for(pair<int,int>nodes:degree){
-            int node=nodes.first;
-            int nodeDegree=nodes.second;
-            if(nodeDegree==edges.size()){
-                return node;
-            }
-        }
-        return -1;
+        vector<int>& e1=edges[0];
+        vector<int>& e2=edges[1];
+        
+        return(e1[0]==e2[0] || e1[0]==e2[1]) ? e1[0]:e1[1];
     }
 };
